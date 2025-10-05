@@ -1,2 +1,11 @@
 version: 2
 sources:
+  - name: stg
+    database: WALMART
+    schema: LAND     # <— tell dbt to look in schema 'LAND', not 'stg' don't use this if the schema name is also stg
+    tables:
+      - name: calendar
+      - name: product
+      - name: store
+      - name: inventory
+      - name: sales
