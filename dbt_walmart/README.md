@@ -1,10 +1,196 @@
-Welcome to your new dbt project!
+# DBT Project Checklist
 
-### Using the starter project
+## **1️⃣ Install dbt and initialize a project**
 
-Try running the following commands:
-- dbt run
-- dbt test
+1. **Install dbt** (if not done already):
+
+```bash
+pip install dbt-core dbt-postgres  # or dbt-[your adapter]
+```
+
+2. **Initialize a new dbt project**:
+
+```bash
+dbt init my_dbt_project
+cd my_dbt_project
+```
+
+* This creates a **default folder structure**.
+
+---
+
+## **2️⃣ Folder Structure (Best Practices)**
+
+```
+my_dbt_project/
+├── dbt_project.yml       # main project config
+├── profiles.yml          # dbt connection profiles (usually in ~/.dbt)
+├── models/
+│   ├── staging/          # stg_ tables (layer: staging)
+│   ├── intermediate/     # int_ tables
+│   ├── marts/            # fct_/dim_ tables
+│   └── <domain_folders>  # optional domain-specific subfolders
+├── snapshots/            # snapshot SQLs
+├── seeds/                # CSV seed files
+├── analyses/             # optional ad-hoc analysis queries
+├── macros/               # reusable macros
+├── tests/                # optional custom tests
+├── docs/                 # optional project-level docs (can use docs.yml here)
+└── yaml_files/
+    ├── sources.yml       # source definitions
+    ├── <model>_models.yml # model-level metadata
+    ├── <source>_docs.yml # docs metadata
+    └── properties.yml    # optional: project or folder-level properties
+```
+
+✅ **Checklist**:
+
+* [ ] `dbt_project.yml` configured with correct `source-paths` and `target-paths`
+* [ ] Connection profile exists in `profiles.yml`
+* [ ] Models organized by **layer** (`stg_`, `int_`, `fct_/dim_`)
+* [ ] Source YAML (`sources.yml`) created
+* [ ] Model YAML (`<source>_models.yml`) created
+* [ ] Docs YAML (`<source>_docs.yml`) created
+
+---
+
+## **3️⃣ Create your first source**
+
+1. Create **sources.yml**:
+
+```yaml
+version: 2
+
+sources:
+  - name: jaffle_shop
+    tables:
+      - name: customers
+      - name: orders
+```
+
+* Place in `yaml_files/` or alongside the relevant folder in `models/`.
+
+---
+
+## **4️⃣ Create your first model**
+
+1. Create SQL file in the **staging layer**:
+
+```
+models/staging/stg_jaffle_shop_customers.sql
+```
+
+```sql
+select *
+from {{ source('jaffle_shop', 'customers') }}
+```
+
+2. Create corresponding YAML for the model:
+
+```yaml
+version: 2
+
+models:
+  - name: stg_jaffle_shop_customers
+    description: "Staging table for customers"
+    columns:
+      - name: id
+        description: "Customer ID"
+      - name: first_name
+        description: "Customer first name"
+```
+
+---
+
+## **5️⃣ Optional docs and properties**
+
+1. **Docs YAML** (`jaffle_shop_docs.yml`) for documentation:
+
+```yaml
+version: 2
+
+docs:
+  - name: customer_doc
+    description: "Documentation about customers table"
+```
+
+2. **Properties YAML** (optional):
+
+```yaml
+tags:
+  - layer: staging
+owners:
+  - team: analytics
+```
+
+* Place in `yaml_files/` or relevant model folder.
+
+---
+
+## **6️⃣ Run dbt commands**
+
+1. **Compile models** (check SQL generation):
+
+```bash
+dbt compile
+```
+
+2. **Run models** (execute SQL in your warehouse):
+
+```bash
+dbt run
+```
+
+3. **Test models** (run built-in tests):
+
+```bash
+dbt test
+```
+
+4. **Generate docs site**:
+
+```bash
+dbt docs generate
+dbt docs serve
+```
+
+5. **Optional snapshot** (if using snapshots):
+
+```bash
+dbt snapshot
+```
+
+---
+
+## **7️⃣ Optional: Use seeds**
+
+1. Place CSV in `seeds/`
+2. Reference in SQL:
+
+```sql
+select *
+from {{ ref('my_seed_file') }}
+```
+
+3. Run:
+
+```bash
+dbt seed
+```
+
+---
+
+## **8️⃣ Best Practices Checklist**
+
+* [ ] Use **layered model naming**: `stg_`, `int_`, `fct_`, `dim_`
+* [ ] Keep YAMLs **one per source/system**: `sources.yml`, `models.yml`, `docs.yml`
+* [ ] Use **single underscores** for filenames (`stg_jaffle_shop_customers.sql`)
+* [ ] Keep **properties.yml optional** for metadata
+* [ ] Use **dbt tests** (`unique`, `not_null`, `relationships`)
+* [ ] Organize **folders logically by domain or layer**
+* [ ] Version control all YAMLs and SQL files
+
+---
 
 
 ### Resources:
