@@ -122,7 +122,7 @@ select *
 from {{ source('jaffle_shop', 'customers') }}
 ```
 
-2. Create corresponding YAML for the model:
+2. Create corresponding YAML for the model `__models.yml`:
 
 ```yaml
 version: 2

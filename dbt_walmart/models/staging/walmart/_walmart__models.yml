@@ -1,0 +1,192 @@
+version: 2
+
+models:
+  - name: stg_walmart__store
+    description: "View providing store-level details such as location, type, and market segmentation."
+    config:
+      materialized: view
+    columns:
+      - name: store_key
+        description: "Unique surrogate key identifying each store."
+        tests:
+          - not_null
+          - unique
+
+      - name: store_num
+        description: "Store number as assigned by the organization."
+
+      - name: store_desc
+        description: "Detailed description or name of the store."
+
+      - name: addr
+        description: "Street address of the store."
+
+      - name: city
+        description: "City where the store is located."
+
+      - name: region
+        description: "Region or area in which the store operates."
+
+      - name: cntry_cd
+        description: "Country code (e.g., US, CA, UK)."
+
+      - name: cntry_nm
+        description: "Full name of the country."
+
+      - name: postal_zip_cd
+        description: "Postal or ZIP code for the store's address."
+
+      - name: prov_state_desc
+        description: "Full name of the province or state."
+
+      - name: prov_state_cd
+        description: "Province or state code (e.g., TX, ON)."
+
+      - name: store_type_cd
+        description: "Code representing the store type (e.g., FR, CO)."
+
+      - name: store_type_desc
+        description: "Full description of the store type (e.g., Franchise, Corporate Owned)."
+
+      - name: frnchs_flg
+        description: "Flag indicating whether the store is franchised (TRUE/FALSE)."
+
+      - name: store_size
+        description: "Size of the store in square units (e.g., square feet or meters)."
+
+      - name: market_key
+        description: "Foreign key linking the store to a market dimension."
+
+      - name: market_name
+        description: "Descriptive name of the market."
+
+      - name: submarket_key
+        description: "Foreign key linking the store to a submarket dimension."
+
+      - name: submarket_name
+        description: "Descriptive name of the submarket."
+
+      - name: latitude
+        description: "Geographical latitude of the store's location."
+
+      - name: longitude
+        description: "Geographical longitude of the store's location."
+
+  - name: stg_walmart__product
+    description: "View containing product-level information such as brand, category, and status."
+    config:
+      materialized: view
+    columns:
+      - name: prod_key
+        description: "Unique surrogate key identifying each product."
+        tests:
+          - not_null
+          - unique
+
+      - name: prod_name
+        description: "Full product name."
+
+      - name: vol
+        description: "Product volume (e.g., in liters, milliliters, or cubic units)."
+
+      - name: wgt
+        description: "Product weight (e.g., in kilograms, grams, or pounds)."
+
+      - name: brand_name
+        description: "Brand name under which the product is sold."
+
+      - name: status_code
+        description: "Numeric code representing the product status (e.g., active, discontinued)."
+
+      - name: status_code_name
+        description: "Descriptive name for the product status."
+
+      - name: category_key
+        description: "Foreign key linking to the product category."
+
+      - name: category_name
+        description: "Name of the product category."
+
+      - name: subcategory_key
+        description: "Foreign key linking to the product subcategory."
+
+      - name: subcategory_name
+        description: "Name of the product subcategory."
+
+  - name: stg_walmart__sales
+    description: "View containing transactional sales data, including quantity, amount, and margin."
+    config:
+      materialized: view
+    columns:
+      - name: trans_id
+        description: "Unique transaction identifier."
+        tests:
+          - not_null
+          - unique
+
+      - name: prod_key
+        description: "Foreign key linking to the product dimension."
+
+      - name: store_key
+        description: "Foreign key linking to the store dimension."
+
+      - name: trans_dt
+        description: "Transaction date."
+
+      - name: trans_time
+        description: "Transaction time (e.g., in HHMMSS or seconds format)."
+
+      - name: sales_qty
+        description: "Quantity of products sold."
+
+      - name: sales_price
+        description: "Unit price of the product at the time of sale."
+
+      - name: sales_amt
+        description: "Total sales amount for the transaction."
+
+      - name: discount
+        description: "Discount applied to the transaction."
+
+      - name: sales_cost
+        description: "Cost of goods sold for the transaction."
+
+      - name: sales_mgrn
+        description: "Sales margin (revenue minus cost)."
+
+      - name: ship_cost
+        description: "Shipping cost associated with the transaction."
+
+  - name: stg_walmart__inventory
+    description: "View containing store-level product inventory details and delivery information."
+    config:
+      materialized: view
+    columns:
+      - name: cal_dt
+        description: "Calendar date for the inventory record."
+        tests:
+          - not_null
+
+      - name: store_key
+        description: "Foreign key linking to the store dimension."
+
+      - name: prod_key
+        description: "Foreign key linking to the product dimension."
+
+      - name: inventory_on_hand_qty
+        description: "Quantity of inventory currently on hand."
+
+      - name: inventory_on_order_qty
+        description: "Quantity of inventory on order."
+
+      - name: out_of_stock_flg
+        description: "Flag indicating if the product was out of stock (1=True, 0=False)."
+
+      - name: waste_qty
+        description: "Quantity of inventory wasted or discarded."
+
+      - name: promotion_flg
+        description: "Boolean flag indicating if the product was under promotion on that date."
+
+      - name: next_delivery_dt
+        description: "Expected next delivery date for the product."

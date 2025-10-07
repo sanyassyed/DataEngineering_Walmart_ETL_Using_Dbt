@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: dim_calendar
+    description: "Date dimension table that provides calendar attributes for analytics and joins with fact tables."
+    columns:
+      - name: date_day
+        description: "The calendar date."
+        tests:
+          - not_null
+          - unique
+
+      - name: year_number
+        description: "Year value of the date."
+
+      - name: month_number
+        description: "Month number (1–12)."
+
+      - name: month_name
+        description: "Full name of the month."
+
+      - name: quarter_number
+        description: "Quarter number (1–4)."
+
+      - name: day_of_month
+        description: "Day of the month (1–31)."
+
+      - name: day_of_week_number
+        description: "Day of the week as a number (0=Sunday, 6=Saturday)."
+
+      - name: day_name
+        description: "Full name of the day (e.g., Monday)."
+
+      - name: week_of_year
+        description: "Week number within the year."
+
+      - name: is_weekend
+        description: "Boolean flag indicating whether the day is a weekend."
+
+      - name: days_in_month
+        description: "Number of days in the given month."
+
+      - name: year_month
+        description: "Concatenated year and month (e.g., 2024-07)."
+
+      - name: quarter_label
+        description: "Human-readable quarter label (e.g., Q1 2025)."
