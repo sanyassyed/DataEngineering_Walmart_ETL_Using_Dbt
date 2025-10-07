@@ -23,24 +23,61 @@ cd my_dbt_project
 
 ```
 my_dbt_project/
-├── dbt_project.yml       # main project config
-├── profiles.yml          # dbt connection profiles (usually in ~/.dbt)
+│
+├── dbt_project.yml                 ← main dbt configuration file
+├── packages.yml                    ← optional: manage dbt packages
+├── README.md                       ← optional: project overview
+│
 ├── models/
-│   ├── staging/          # stg_ tables (layer: staging)
-│   ├── intermediate/     # int_ tables
-│   ├── marts/            # fct_/dim_ tables
-│   └── <domain_folders>  # optional domain-specific subfolders
-├── snapshots/            # snapshot SQLs
-├── seeds/                # CSV seed files
-├── analyses/             # optional ad-hoc analysis queries
-├── macros/               # reusable macros
-├── tests/                # optional custom tests
-├── docs/                 # optional project-level docs (can use docs.yml here)
-└── yaml_files/
-    ├── sources.yml       # source definitions
-    ├── <model>_models.yml # model-level metadata
-    ├── <source>_docs.yml # docs metadata
-    └── properties.yml    # optional: project or folder-level properties
+│   │
+│   ├── staging/
+│   │   ├── tpcds/
+│   │   │   ├── _tpcds_sources.yml       ← defines raw data sources (source tables)
+│   │   │   ├── stg_customers.sql        ← staging model for customers
+│   │   │   ├── stg_orders.sql           ← staging model for orders
+│   │   │   └── _tpcds_models.yml        ← docs/tests for staging models
+│   │   │
+│   │   └── <other_source_system>/       ← optional: more sources (e.g., jaffle_shop)
+│   │       ├── _<source>_sources.yml
+│   │       └── stg_<source>_*.sql
+│   │
+│   ├── intermediate/
+│   │   ├── int_customer_orders.sql      ← joins or aggregations between staging and marts
+│   │   └── _intermediate_models.yml     ← docs/tests for intermediate models
+│   │
+│   ├── marts/
+│   │   ├── core/
+│   │   │   ├── dim_customers.sql
+│   │   │   ├── fct_orders.sql
+│   │   │   └── _core_models.yml         ← docs/tests for core marts
+│   │   │
+│   │   ├── operational/
+│   │   │   ├── dim_inventory.sql
+│   │   │   ├── fct_sales.sql
+│   │   │   └── _operational_models.yml  ← docs/tests for operational marts
+│   │   │
+│   │   └── finance/
+│   │       ├── fct_revenue.sql
+│   │       └── _finance_models.yml      ← optional additional mart area
+│   │
+│   └── _project_docs.yml                ← optional project-level documentation or metadata
+│
+├── snapshots/
+│   ├── customer_snapshot.sql
+│   └── _snapshots.yml                   ← docs/tests for snapshot models
+│
+├── seeds/                               ← static CSV data for lookups or reference tables
+│   └── lookup_countries.csv
+│
+├── macros/                              ← reusable macros and custom tests
+│   └── my_macro.sql
+│
+├── analyses/                            ← optional: exploratory SQL analysis
+│   └── ad_hoc_query.sql
+│
+└── tests/                               ← optional: additional test definitions (custom .sql tests)
+    └── my_custom_test.sql
+
 ```
 
 ✅ **Checklist**:
