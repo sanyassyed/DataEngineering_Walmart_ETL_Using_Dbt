@@ -1,13 +1,13 @@
 dbt_walmart:
   outputs:
     dev:
-      account: *****
+      account: ****
       database: WALMART
-      password: *****
+      password: ****
       role: ACCOUNTADMIN
       schema: LAND
       threads: 1
       type: snowflake
-      user: *****
+      user: ****
       warehouse: COMPUTE_WH
   target: dev
