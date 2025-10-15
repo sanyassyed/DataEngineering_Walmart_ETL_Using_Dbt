@@ -38,8 +38,8 @@
           and start_date >= '{{ MAX_START_DT }}'
       {% endif %}
 
--- we are not checking the sysdate column in the unique keys so when all other columns match the sysdate column will be updated
+-- we are not checking the start_date column in the unique keys so when all other columns match the start_date column will be updated
 -- and when any one of the those columns don't match the whole new row will be inserted
--- Eg: if the product data remains the same only the sysdate will be updated
--- and if for example the product name changes a new record will be inserted with the new sysdate and the old record for the same product will have the old sysdate
+-- Eg: if the product data remains the same only the start_date will be updated
+-- and if for example the product name changes a new record will be inserted with the new start_date and the old record for the same product will have the old start_date
 -- thus maintaining historical data Type 2 SCD

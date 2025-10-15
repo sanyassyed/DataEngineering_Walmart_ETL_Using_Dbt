@@ -111,6 +111,9 @@ models:
 
       - name: subcategory_name
         description: "Name of the product subcategory."
+      
+      - name: start_date
+        description: Auto populated column which is filled using the sysdate() function
 
   - name: stg_walmart__sales
     description: "View containing transactional sales data, including quantity, amount, and margin."

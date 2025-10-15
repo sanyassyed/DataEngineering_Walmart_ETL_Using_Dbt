@@ -45,3 +45,215 @@ models:
 
       - name: quarter_label
         description: "Human-readable quarter label (e.g., Q1 2025)."
+
+  - name: dim_product
+    description: "Product dimension table with product attributes, brand, category hierarchy, and active status tracking for SCD Type 2 logic."
+    columns:
+      - name: prod_key
+        description: "Unique identifier for each product."
+        tests:
+          - not_null
+
+      - name: prod_name
+        description: "Name of the product."
+
+      - name: vol
+        description: "Volume measurement for the product."
+
+      - name: wgt
+        description: "Weight measurement for the product."
+
+      - name: brand_name
+        description: "Brand name associated with the product."
+
+      - name: status_code
+        description: "Status code representing the product's lifecycle state."
+
+      - name: status_code_name
+        description: "Descriptive name for the product status code."
+
+      - name: category_key
+        description: "Unique identifier for the product category."
+
+      - name: category_name
+        description: "Category name of the product."
+
+      - name: subcategory_key
+        description: "Unique identifier for the product subcategory."
+
+      - name: subcategory_name
+        description: "Subcategory name of the product."
+
+      - name: start_date
+        description: "Start date indicating when the product record became active."
+
+      - name: deactivate_date
+        description: "Date when the product record was deactivated or replaced by a new version."
+
+      - name: active_status
+        description: "Boolean flag indicating whether the record is the current active version."
+
+  - name: dim_product_snapshot
+    description: "Snapshot-based product dimension capturing historical changes using dbt snapshot for SCD Type 2 implementation."
+    columns:
+      - name: prod_key
+        description: "Unique identifier for each product record in snapshot."
+        tests:
+          - not_null
+
+      - name: prod_name
+        description: "Product name."
+
+      - name: vol
+        description: "Product volume."
+
+      - name: wgt
+        description: "Product weight."
+
+      - name: brand_name
+        description: "Brand name associated with the product."
+
+      - name: status_code
+        description: "Status code indicating product’s state."
+
+      - name: status_code_name
+        description: "Descriptive name for product status."
+
+      - name: category_key
+        description: "Unique identifier for product category."
+
+      - name: category_name
+        description: "Product category name."
+
+      - name: subcategory_key
+        description: "Unique identifier for subcategory."
+
+      - name: subcategory_name
+        description: "Subcategory name for the product."
+
+      - name: start_date
+        description: "Start timestamp when the record became valid (mapped from dbt_valid_from)."
+
+      - name: deactivate_date
+        description: "End timestamp when the record was replaced or became inactive (mapped from dbt_valid_to)."
+
+      - name: active_status
+        description: "Boolean flag to indicate active records in the snapshot table."
+
+  - name: dim_store
+    description: "Store dimension containing store details, geographical attributes, and market hierarchy for analysis."
+    columns:
+      - name: store_key
+        description: "Unique identifier for each store."
+        tests:
+          - not_null
+          - unique
+
+      - name: store_num
+        description: "Store number used in business operations."
+
+      - name: store_desc
+        description: "Store description or name."
+
+      - name: addr
+        description: "Street address of the store."
+
+      - name: city
+        description: "City where the store is located."
+
+      - name: region
+        description: "Region or area classification for the store."
+
+      - name: cntry_cd
+        description: "Country code."
+
+      - name: cntry_nm
+        description: "Full country name."
+
+      - name: postal_zip_cd
+        description: "Postal or ZIP code."
+
+      - name: prov_state_desc
+        description: "Full name of the province or state."
+
+      - name: prov_state_cd
+        description: "Province or state code."
+
+      - name: store_type_cd
+        description: "Code indicating store type."
+
+      - name: store_type_desc
+        description: "Description of store type."
+
+      - name: frnchs_flg
+        description: "Boolean flag indicating whether the store is franchised."
+
+      - name: store_size
+        description: "Store size measurement (e.g., in square meters or feet)."
+
+      - name: market_key
+        description: "Identifier linking the store to a market."
+
+      - name: market_name
+        description: "Market name."
+
+      - name: submarket_key
+        description: "Identifier linking the store to a submarket."
+
+      - name: submarket_name
+        description: "Submarket name."
+
+      - name: latitude
+        description: "Store latitude coordinate."
+
+      - name: longitude
+        description: "Store longitude coordinate."
+
+      - name: updated_at
+        description: "Timestamp when the record was last updated."
+
+  - name: fact_daily_sales
+    description: "Fact table containing daily sales metrics joined with store, product, and calendar dimensions."
+    columns:
+      - name: cal_dt
+        description: "Sales calendar date."
+        tests:
+          - not_null
+
+      - name: store_key
+        description: "Foreign key linking to the store dimension."
+        tests:
+          - relationships:
+              to: ref('dim_store')
+              field: store_key
+
+      - name: prod_key
+        description: "Foreign key linking to the product dimension."
+        tests:
+          - relationships:
+              to: ref('dim_product')
+              field: prod_key
+
+      - name: sales_qty
+        description: "Quantity of products sold."
+
+      - name: sales_amt
+        description: "Total sales amount for the day."
+
+      - name: sales_price
+        description: "Average unit selling price."
+
+      - name: sales_cost
+        description: "Total cost of goods sold."
+
+      - name: sales_mgrn
+        description: "Margin derived as sales amount minus cost."
+
+      - name: discount
+        description: "Discount amount applied to sales."
+
+      - name: ship_cost
+        description: "Shipping or logistics cost."
+
+      - name: update_time
+        description: "Timestamp when the record was last updated or loaded."

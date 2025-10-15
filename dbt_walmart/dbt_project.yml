@@ -40,5 +40,6 @@ models:
     #   +schema: intermediate
     marts:
       +materialized: table
+      +transient: false # to stop dbt from making transient tables in snowflake by default
       +schema: enterprise
 

@@ -6,9 +6,10 @@ Steps
 
 ## Transformation Notes:
 * Instructions [here](./instructions.ipynb)
-* Run this everytime `source .venv/bin/activate`
+* Commands used
+    *  `source .venv/bin/activate` : to activate the virtual env with dbt in it
+    *  `dbt debug --project-dir dbt_walmart` : to debug the project
 * Move the profiles.yml to the project root directory `mv /home/codespace/.dbt/profiles.yml .`
-* Use the following command from the project root directory `dbt debug --project-dir dbt_walmart`
 * Load Data from the csv files [here](https://s3.amazonaws.com/weclouddata/data/data/walmart%20raw%20data.zip) into Snowflake database `WALMART` in the schema `LAND`
 * Use the scripts [here](./scripts/loading_and_eda.sql)
 * Data Structure
@@ -20,6 +21,9 @@ Steps
 * Snowflake:
     * WHEN `MATCHED` -> `Update`
     * WHEN `NOT MATCHED` -> `Insert`
+* dbt Docs:
+    * `dbt docs generate --project-dir dbt_walmart/`
+    * `dbt docs serve --port 8000 --project-dir dbt_walmart/`
 
 ## 🧩 dbt Model Flow Summary (Color-Coded)
 
