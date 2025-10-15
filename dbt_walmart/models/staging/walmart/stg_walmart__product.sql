@@ -32,7 +32,7 @@
       subcategory_name,
       sysdate() as start_date
   from 
-      {{ source('raw', 'product') }}
+      {{ source('walmart', 'product') }}
   where 1=1
       {% if is_incremental() %}
           and start_date >= '{{ MAX_START_DT }}'

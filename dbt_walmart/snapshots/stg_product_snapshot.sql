@@ -12,7 +12,7 @@
     select 
         * 
     from 
-        {{ source('raw', 'product') }}
+        {{ source('walmart', 'product') }}
     order by
         prod_key
 

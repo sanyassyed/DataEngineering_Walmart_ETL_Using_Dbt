@@ -35,9 +35,9 @@ models:
     staging:
       +materialized: view
       +schema: land
-    intermediate: 
-      +materialized: ephemeral
-      +schema: intermediate
+    # intermediate: 
+    #   +materialized: ephemeral
+    #   +schema: intermediate
     marts:
       +materialized: table
       +schema: enterprise

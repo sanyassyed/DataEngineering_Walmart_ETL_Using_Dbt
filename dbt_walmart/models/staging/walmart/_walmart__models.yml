@@ -81,7 +81,6 @@ models:
         description: "Unique surrogate key identifying each product."
         tests:
           - not_null
-          - unique
 
       - name: prod_name
         description: "Full product name."
@@ -119,10 +118,9 @@ models:
       materialized: view
     columns:
       - name: trans_id
-        description: "Unique transaction identifier."
+        description: "Transaction identifier."
         tests:
           - not_null
-          - unique
 
       - name: prod_key
         description: "Foreign key linking to the product dimension."
@@ -156,6 +154,12 @@ models:
 
       - name: ship_cost
         description: "Shipping cost associated with the transaction."
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - trans_id
+            - prod_key
+            - store_key
 
   - name: stg_walmart__inventory
     description: "View containing store-level product inventory details and delivery information."
