@@ -21,6 +21,8 @@ Steps
     * WHEN `MATCHED` -> `Update`
     * WHEN `NOT MATCHED` -> `Insert`
 
+## 🧩 dbt Model Flow Summary (Color-Coded)
+
 > ✅ **Color Legend:**
 > 🟩 **Staging layer** (source cleaning & standardization)
 > 🟦 **Marts layer** (business-ready models, facts & dimensions)
@@ -28,7 +30,6 @@ Steps
 > ⚪ **Landing layer** (raw ingestion area)
 
 
-### 🧩 dbt Model Flow Summary (Color-Coded)
 
 | **Column Name** | **Option** | **Topic**                                        | **Step** | **Input**                     | **Folder**                  | **Model**                  | **Transformation**                                                                          | **Schema**             | **Notes**                                                                                                                                                                      |
 | --------------- | ---------- | ------------------------------------------------ | -------- | ----------------------------- | --------------------------- | -------------------------- | ------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
